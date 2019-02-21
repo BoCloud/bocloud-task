@@ -12,8 +12,8 @@ File Encoding         : 65001
 
 Date: 2019-02-21 09:49:29
 */
-CREATE database if NOT EXISTS `paas-basic-task` default character set utf8 collate utf8_general_ci;
-use `paas-basic-task`;
+CREATE database if NOT EXISTS `paas_basic_task` default character set utf8 collate utf8_general_ci;
+use `paas_basic_task`;
 
 SET FOREIGN_KEY_CHECKS=0;
 
