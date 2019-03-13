@@ -70,6 +70,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 //        consul_host = "192.168.0.212";
 //        service_name = "paas-basic-task";
         if (consul_host != null) {
+            System.out.println("自动注册consul");
             String hostAddress = "";
             try {
                 InetAddress localHostLANAddress = getLocalHostLANAddress();
@@ -83,7 +84,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
             acl_token = acl_token == null ? "787bd467-a93e-8558-1aaf-f7c4036c406b" : acl_token;
 
             System.out.println("==========================");
-            System.out.println("从环境变量中读取的数据");
+            System.out.println("实际请求变量中读取的数据");
             System.out.println("consul_host " + consul_host);
             System.out.println("service_ip " + service_ip);
             System.out.println("hostAddress " + hostAddress);
