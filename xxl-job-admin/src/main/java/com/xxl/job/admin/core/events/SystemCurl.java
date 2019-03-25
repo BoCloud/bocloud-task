@@ -51,6 +51,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         String consul_host = System.getenv("consul_host");
+        String consul_port = System.getenv("consul_port");
         String service_ip = System.getenv("service_ip");
         String service_name = System.getenv("service_name");
         String service_port = System.getenv("service_port");
@@ -60,6 +61,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
         System.out.println("==========================");
         System.out.println("从环境变量中读取的数据");
         System.out.println("consul_host " + consul_host);
+        System.out.println("consul_port " + consul_port);
         System.out.println("service_ip " + service_ip);
         System.out.println("service_name " + service_name);
         System.out.println("service_port " + service_port);
@@ -86,6 +88,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
             System.out.println("==========================");
             System.out.println("实际请求变量中读取的数据");
             System.out.println("consul_host " + consul_host);
+            System.out.println("consul_port " + consul_port);
             System.out.println("service_ip " + service_ip);
             System.out.println("hostAddress " + hostAddress);
             System.out.println("service_name " + service_name);
@@ -126,7 +129,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
                     "}";
 
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            HttpPut putRequest = new HttpPut("http://" + consul_host + ":8500/v1/catalog/register");
+            HttpPut putRequest = new HttpPut("http://" + consul_host + ":"+consul_port+"/v1/catalog/register");
             putRequest.addHeader("Content-Type", "application/json;charset=UTF-8");
             putRequest.addHeader("X-Consul-Token", acl_token);
             StringEntity input = null;
