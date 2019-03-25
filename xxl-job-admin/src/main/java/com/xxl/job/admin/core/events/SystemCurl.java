@@ -117,7 +117,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
                     "    \"Name\": \"" + service_name + " health check\"," +
                     "    \"Notes\": \"Script based health check\"," +
                     "    \"Status\": \"passing\"," +
-                    "    \"ServiceID\": \"" + service_name + "\"," +
+                    "    \"ServiceID\": \"" + service_name+service_id + "\"," +
                     "    \"Definition\": {" +
                     "      \"TCP\": \"" + hostAddress + ":" + service_port + "\", " +
                     "      \"Interval\": \"5s\"," +
