@@ -19,6 +19,10 @@ ENV email_port 25
 ENV email_username guoguangchao@beyondcent.com
 ENV email_password Gguangc123
 ENV email_sendnick BASIC-TASK
+ENV consul_host 127.0.0.1
+ENV consul_port 8500
+ENV acl_token 787bd467-a93e-8558-1aaf-f7c4036c406b
+
 
 EXPOSE 9024
 WORKDIR $CONTROL_PATH
