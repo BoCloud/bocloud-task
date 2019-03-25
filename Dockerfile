@@ -1,4 +1,5 @@
 FROM openjdk:8u171-alpine 
+MAINTAINER beyondcent.com
 ENV  TIME_ZONE Asia/Shanghai
 RUN ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
 RUN mkdir -p /opt/paas/images/paas-basic-task
