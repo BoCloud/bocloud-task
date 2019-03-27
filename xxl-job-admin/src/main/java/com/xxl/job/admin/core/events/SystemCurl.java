@@ -1,17 +1,18 @@
 package com.xxl.job.admin.core.events;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
 
 @Component
 public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
@@ -58,6 +59,15 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
         String service_id = System.getenv("service_id");
         String acl_token = System.getenv("acl_token");
 
+//    	String consul_host = "192.168.2.171";
+//        String consul_port = "8500";
+//        String service_ip = "10.10.100.92";
+//        String service_name = "paas-basic-task";
+//        String service_port = "9024";
+//        String service_id = "0123456789";
+//        String acl_token = "787bd467-a93e-8558-1aaf-f7c4036c406b";
+//        String uuid = UUID.randomUUID().toString();
+        
         System.out.println("==========================");
         System.out.println("从环境变量中读取的数据");
         System.out.println("consul_host " + consul_host);
@@ -99,27 +109,31 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 
             String b = "{" +
                     "\"ID\":\"4034a748-2192-161a-0510-9bf59fe950b2\"," +
-                    "\"Node\":\"deploy.bocloud\"," +
+                    "\"Node\":\""+service_name+"\"," +
                     "\"Address\":\"" + consul_host + "\"," +
                     "\"NodeMeta\":{" +
                     "\"external-node\":\"true\"," +
                     "\"external-probe\":\"true\"" +
                     "}," +
                     "\"Service\":{" +
-                    "\"ID\":\"" + service_name + "\", " +
+                    "\"ID\":\"" + service_name+service_id + "\", " +
                     "\"Service\":\"" + service_name + "\", " +
                     "\"Address\":\"" + hostAddress + "\"," +
                     "\"Port\": " + service_port +
                     "}," +
                     "\"Check\": {" +
-                    "    \"Node\": \"deploy.bocloud\"," +
+                    "    \"Node\": \""+service_name+"\"," +
                     "    \"CheckID\": \"service:" + service_name + "\"," +
                     "    \"Name\": \"" + service_name + " health check\"," +
                     "    \"Notes\": \"Script based health check\"," +
                     "    \"Status\": \"passing\"," +
                     "    \"ServiceID\": \"" + service_name+service_id + "\"," +
+                    "	 \"ServiceTags\": [" +
+                    "                \"urlprefix-/paas-basic-task\","+
+                    "                \"secure=false\""+
+                    "            ],"+
                     "    \"Definition\": {" +
-                    "      \"TCP\": \"" + hostAddress + ":" + service_port + "\", " +
+                    "      \"HTTP\": \"" + hostAddress + ":" + service_port + "/paas-basic-task\", " +
                     "      \"Interval\": \"5s\"," +
                     "      \"Timeout\": \"1s\"," +
                     "      \"DeregisterCriticalServiceAfter\": \"30s\"" +
@@ -140,7 +154,9 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 
                 putRequest.setEntity(input);
                 HttpResponse response = httpClient.execute(putRequest);
-                int j = 0;
+                System.out.println("==========================paas-basic-task registry result:==========================");
+                System.out.println(EntityUtils.toString(response.getEntity()));
+                System.out.println("==========================paas-basic-task registry end:=============================");
             } catch (Exception e) {
                 e.printStackTrace();
             }
