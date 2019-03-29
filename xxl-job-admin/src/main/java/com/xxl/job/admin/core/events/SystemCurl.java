@@ -66,7 +66,6 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 //        String service_port = "9024";
 //        String service_id = "0123456789";
 //        String acl_token = "787bd467-a93e-8558-1aaf-f7c4036c406b";
-//        String uuid = UUID.randomUUID().toString();
         
         System.out.println("==========================");
         System.out.println("从环境变量中读取的数据");
@@ -107,43 +106,61 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
             System.out.println("acl_token " + acl_token);
             System.out.println("==========================");
 
-            String b = "{" +
-                    "\"ID\":\"4034a748-2192-161a-0510-9bf59fe950b2\"," +
-                    "\"Node\":\""+service_name+"\"," +
-                    "\"Address\":\"" + consul_host + "\"," +
-                    "\"NodeMeta\":{" +
-                    "\"external-node\":\"true\"," +
-                    "\"external-probe\":\"true\"" +
-                    "}," +
-                    "\"Service\":{" +
-                    "\"ID\":\"" + service_name+service_id + "\", " +
-                    "\"Service\":\"" + service_name + "\", " +
-                    "\"Address\":\"" + hostAddress + "\"," +
-                    "\"Port\": " + service_port +
-                    "}," +
-                    "\"Check\": {" +
-                    "    \"Node\": \""+service_name+"\"," +
-                    "    \"CheckID\": \"service:" + service_name + "\"," +
-                    "    \"Name\": \"" + service_name + " health check\"," +
-                    "    \"Notes\": \"Script based health check\"," +
-                    "    \"Status\": \"passing\"," +
-                    "    \"ServiceID\": \"" + service_name+service_id + "\"," +
-                    "	 \"ServiceTags\": [" +
-                    "                \"urlprefix-/paas-basic-task\","+
-                    "                \"secure=false\""+
-                    "            ],"+
-                    "    \"Definition\": {" +
-                    "      \"HTTP\": \"" + hostAddress + ":" + service_port + "/paas-basic-task\", " +
-                    "      \"Interval\": \"5s\"," +
-                    "      \"Timeout\": \"1s\"," +
-                    "      \"DeregisterCriticalServiceAfter\": \"30s\"" +
-                    "    }" +
-                    "  }," +
-                    "  \"SkipNodeUpdate\": false" +
-                    "}";
-
+//            String b = "{" +
+//                    "\"ID\":\"4034a748-2192-161a-0510-9bf59fe950b2\"," +
+//                    "\"Node\":\""+service_name+"\"," +
+//                    "\"Address\":\"" + consul_host + "\"," +
+//                    "\"NodeMeta\":{" +
+//                    "\"external-node\":\"true\"," +
+//                    "\"external-probe\":\"true\"" +
+//                    "}," +
+//                    "\"Service\":{" +
+//                    "\"ID\":\"" + service_name+service_id + "\", " +
+//                    "\"Service\":\"" + service_name + "\", " +
+//                    "\"Address\":\"" + hostAddress + "\"," +
+//                    "\"Port\": " + service_port +
+//                    "}," +
+//                    "\"Check\": {" +
+//                    "    \"Node\": \""+service_name+"\"," +
+//                    "    \"CheckID\": \"service:" + service_name + "\"," +
+//                    "    \"Name\": \"" + service_name + " health check\"," +
+//                    "    \"Notes\": \"Script based health check\"," +
+//                    "    \"Status\": \"passing\"," +
+//                    "    \"ServiceID\": \"" + service_name+service_id + "\"," +
+////                    "	 \"ServiceTags\": [" +
+////                    "                \"urlprefix-/paas-basic-task\","+
+////                    "                \"secure=false\""+
+////                    "            ],"+
+//                    "    \"Definition\": {" +
+//                    "      \"HTTP\": \"" + hostAddress + ":" + service_port + "/paas-basic-task\", " +
+//                    "      \"Interval\": \"5s\"," +
+//                    "      \"Timeout\": \"1s\"," +
+//                    "      \"DeregisterCriticalServiceAfter\": \"30s\"" +
+//                    "    }" +
+//                    "  }," +
+//                    "  \"SkipNodeUpdate\": false" +
+//                    "}";
+            String b = "{"+
+					    "\"ID\":\"4034a748-2192-161a-0510-9bf59fe950b2\","+
+					    "\"Name\":\""+service_name+"\","+
+//					    "\"Datacente\":\"boclouddatacentor\","+
+					    "\"Tags\":["+
+					    "    \"urlprefix-/paas-basic-task\","+
+					    "    \"secure=false\""+
+					    "],"+
+					    "\"Address\":\"" + hostAddress + "\","+
+					    "\"Port\":" + service_port+","+
+					    "\"EnableTagOverride\":true,"+
+					    "\"Check\":{"+
+					    "    \"name\":\"tcp Health test\","+
+					    "    \"DeregisterCriticalServiceAfter\":\"90m\","+
+					    "    \"Interval\":\"10s\","+
+					    "    \"timeout\":\"1s\","+
+					    "    \"tcp\":\"" + hostAddress + ":" + service_port + "\""+
+					    "}"+
+					"}";
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-            HttpPut putRequest = new HttpPut("http://" + consul_host + ":"+consul_port+"/v1/catalog/register");
+            HttpPut putRequest = new HttpPut("http://" + consul_host + ":"+consul_port+"/v1/agent/service/register");
             putRequest.addHeader("Content-Type", "application/json;charset=UTF-8");
             putRequest.addHeader("X-Consul-Token", acl_token);
             StringEntity input = null;
