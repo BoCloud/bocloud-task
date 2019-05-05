@@ -60,6 +60,7 @@ public class JobGroupController {
 
     @RequestMapping("/save")
     @ResponseBody
+    @PermessionLimit(limit = false)
     public ReturnT<String> save(XxlJobGroup xxlJobGroup) {
 
         // valid
@@ -90,6 +91,7 @@ public class JobGroupController {
 
     @RequestMapping("/update")
     @ResponseBody
+    @PermessionLimit(limit = false)
     public ReturnT<String> update(XxlJobGroup xxlJobGroup) {
         // valid
         if (xxlJobGroup.getAppName() == null || StringUtils.isBlank(xxlJobGroup.getAppName())) {
@@ -151,6 +153,7 @@ public class JobGroupController {
 
     @RequestMapping("/remove")
     @ResponseBody
+    @PermessionLimit(limit = false)
     public ReturnT<String> remove(int id) {
 
         // valid
