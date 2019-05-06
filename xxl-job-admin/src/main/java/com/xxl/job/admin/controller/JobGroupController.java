@@ -14,6 +14,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -61,7 +62,7 @@ public class JobGroupController {
     @RequestMapping("/save")
     @ResponseBody
     @PermessionLimit(limit = false)
-    public ReturnT<String> save(XxlJobGroup xxlJobGroup) {
+    public ReturnT<String> save(@RequestBody XxlJobGroup xxlJobGroup) {
 
         // valid
         if (xxlJobGroup.getAppName() == null || StringUtils.isBlank(xxlJobGroup.getAppName())) {
@@ -92,7 +93,7 @@ public class JobGroupController {
     @RequestMapping("/update")
     @ResponseBody
     @PermessionLimit(limit = false)
-    public ReturnT<String> update(XxlJobGroup xxlJobGroup) {
+    public ReturnT<String> update(@RequestBody XxlJobGroup xxlJobGroup) {
         // valid
         if (xxlJobGroup.getAppName() == null || StringUtils.isBlank(xxlJobGroup.getAppName())) {
             return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + "AppName"));
