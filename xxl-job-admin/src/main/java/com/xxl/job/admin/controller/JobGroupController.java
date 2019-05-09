@@ -62,7 +62,7 @@ public class JobGroupController {
     @RequestMapping("/save")
     @ResponseBody
     @PermessionLimit(limit = false)
-    public ReturnT<String> save(@RequestBody XxlJobGroup xxlJobGroup) {
+    public ReturnT<String> save(XxlJobGroup xxlJobGroup) {
 
         // valid
         if (xxlJobGroup.getAppName() == null || StringUtils.isBlank(xxlJobGroup.getAppName())) {
@@ -93,7 +93,78 @@ public class JobGroupController {
     @RequestMapping("/update")
     @ResponseBody
     @PermessionLimit(limit = false)
-    public ReturnT<String> update(@RequestBody XxlJobGroup xxlJobGroup) {
+    public ReturnT<String> update(XxlJobGroup xxlJobGroup) {
+        // valid
+        if (xxlJobGroup.getAppName() == null || StringUtils.isBlank(xxlJobGroup.getAppName())) {
+            return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + "AppName"));
+        }
+        if (xxlJobGroup.getAppName().length() < 4 || xxlJobGroup.getAppName().length() > 64) {
+            return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_appName_length"));
+        }
+        if (xxlJobGroup.getTitle() == null || StringUtils.isBlank(xxlJobGroup.getTitle())) {
+            return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobgroup_field_title")));
+        }
+        if (xxlJobGroup.getAddressType() == 0) {
+            // 0=自动注册
+            List<String> registryList = findRegistryByAppName(xxlJobGroup.getAppName());
+            String addressListStr = null;
+            if (CollectionUtils.isNotEmpty(registryList)) {
+                Collections.sort(registryList);
+                addressListStr = StringUtils.join(registryList, ",");
+            }
+            xxlJobGroup.setAddressList(addressListStr);
+        } else {
+            // 1=手动录入
+            if (StringUtils.isBlank(xxlJobGroup.getAddressList())) {
+                return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_addressType_limit"));
+            }
+            String[] addresss = xxlJobGroup.getAddressList().split(",");
+            for (String item : addresss) {
+                if (StringUtils.isBlank(item)) {
+                    return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_registryList_unvalid"));
+                }
+            }
+        }
+
+        int ret = xxlJobGroupDao.update(xxlJobGroup);
+        return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
+    }
+
+    @RequestMapping("/api/save")
+    @ResponseBody
+    @PermessionLimit(limit = false)
+    public ReturnT<String> shuntSave(@RequestBody XxlJobGroup xxlJobGroup) {
+
+        // valid
+        if (xxlJobGroup.getAppName() == null || StringUtils.isBlank(xxlJobGroup.getAppName())) {
+            return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + "AppName"));
+        }
+        if (xxlJobGroup.getAppName().length() < 4 || xxlJobGroup.getAppName().length() > 64) {
+            return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_appName_length"));
+        }
+        if (xxlJobGroup.getTitle() == null || StringUtils.isBlank(xxlJobGroup.getTitle())) {
+            return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + I18nUtil.getString("jobgroup_field_title")));
+        }
+        if (xxlJobGroup.getAddressType() != 0) {
+            if (StringUtils.isBlank(xxlJobGroup.getAddressList())) {
+                return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_addressType_limit"));
+            }
+            String[] addresss = xxlJobGroup.getAddressList().split(",");
+            for (String item : addresss) {
+                if (StringUtils.isBlank(item)) {
+                    return new ReturnT<String>(500, I18nUtil.getString("jobgroup_field_registryList_unvalid"));
+                }
+            }
+        }
+
+        int ret = xxlJobGroupDao.save(xxlJobGroup);
+        return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
+    }
+
+    @RequestMapping("/api/update")
+    @ResponseBody
+    @PermessionLimit(limit = false)
+    public ReturnT<String> shuntUpdate(@RequestBody XxlJobGroup xxlJobGroup) {
         // valid
         if (xxlJobGroup.getAppName() == null || StringUtils.isBlank(xxlJobGroup.getAppName())) {
             return new ReturnT<String>(500, (I18nUtil.getString("system_please_input") + "AppName"));

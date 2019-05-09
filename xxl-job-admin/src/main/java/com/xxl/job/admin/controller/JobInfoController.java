@@ -13,10 +13,7 @@ import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.glue.GlueTypeEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -62,17 +59,31 @@ public class JobInfoController {
         return xxlJobService.pageList(start, length, jobGroup, jobDesc, executorHandler, filterTime);
     }
 
-    @RequestMapping("/add")
+    @RequestMapping(value = "/add")
     @ResponseBody
     @PermessionLimit(limit = false)
-    public ReturnT<String> add(@RequestBody XxlJobInfo jobInfo) {
+    public ReturnT<String> addJobInfo(XxlJobInfo jobInfo) {
+        return xxlJobService.add(jobInfo);
+    }
+
+    @RequestMapping(value = "/api/add")
+    @ResponseBody
+    @PermessionLimit(limit = false)
+    public ReturnT<String> shuntAddJobInfo(@RequestBody XxlJobInfo jobInfo) {
         return xxlJobService.add(jobInfo);
     }
 
     @RequestMapping("/update")
     @ResponseBody
     @PermessionLimit(limit = false)
-    public ReturnT<String> update(@RequestBody XxlJobInfo jobInfo) {
+    public ReturnT<String> update(XxlJobInfo jobInfo) {
+        return xxlJobService.update(jobInfo);
+    }
+
+    @RequestMapping("/api/update")
+    @ResponseBody
+    @PermessionLimit(limit = false)
+    public ReturnT<String> shuntUpdate(@RequestBody XxlJobInfo jobInfo) {
         return xxlJobService.update(jobInfo);
     }
 
