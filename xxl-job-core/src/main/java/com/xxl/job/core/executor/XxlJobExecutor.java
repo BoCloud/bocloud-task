@@ -116,7 +116,7 @@ public class XxlJobExecutor  {
                     AdminBiz adminBiz = (AdminBiz) new XxlRpcReferenceBean(NetEnum.JETTY, Serializer.SerializeEnum.HESSIAN.getSerializer(), CallType.SYNC,
                             AdminBiz.class, null, 10000, addressUrl, accessToken, null).getObject();
 
-                    if (adminBizList == null) {
+                    if (null == adminBizList) {
                         adminBizList = new ArrayList<AdminBiz>();
                     }
                     adminBizList.add(adminBiz);

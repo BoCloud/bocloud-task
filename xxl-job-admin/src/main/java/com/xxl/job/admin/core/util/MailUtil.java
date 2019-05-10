@@ -40,7 +40,7 @@ public class MailUtil {
 				email.setSslSmtpPort(XxlJobAdminConfig.getAdminConfig().getMailPort());
 				email.setSSLOnConnect(true);
 			} else {
-				email.setSmtpPort(Integer.valueOf(XxlJobAdminConfig.getAdminConfig().getMailPort()));
+				email.setSmtpPort(Integer.parseInt(XxlJobAdminConfig.getAdminConfig().getMailPort()));
 			}
 
 			email.setAuthenticator(new DefaultAuthenticator(XxlJobAdminConfig.getAdminConfig().getMailUsername(), XxlJobAdminConfig.getAdminConfig().getMailPassword()));
