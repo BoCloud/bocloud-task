@@ -10,12 +10,28 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
+	
+	@Value("${consul_host}")
+	private String consul_host;
+	@Value("${consul_port}")
+	private String consul_port;
+	@Value("${service_ip}")
+	private String service_ip;
+	@Value("${service_name}")
+	private String service_name;
+	@Value("${service_port}")
+	private String service_port;
+	@Value("${service_id}")
+	private String service_id;
+	@Value("${acl_token}")
+	private String acl_token;
 
     public InetAddress getLocalHostLANAddress() throws Exception {
         try {
@@ -51,13 +67,16 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        String consul_host = System.getenv("consul_host");
-        String consul_port = System.getenv("consul_port");
-        String service_ip = System.getenv("service_ip");
-        String service_name = System.getenv("service_name");
-        String service_port = System.getenv("service_port");
-        String service_id = System.getenv("service_id");
-        String acl_token = System.getenv("acl_token");
+    	if(consul_host == null || "".equals(consul_host)){
+    		consul_host = System.getenv("consul_host");
+            consul_port = System.getenv("consul_port");
+            service_ip = System.getenv("service_ip");
+            service_name = System.getenv("service_name");
+            service_port = System.getenv("service_port");
+            service_id = System.getenv("service_id");
+            acl_token = System.getenv("acl_token");
+    	}
+        
 
 //    	String consul_host = "192.168.2.171";
 //        String consul_port = "8500";
