@@ -46,7 +46,7 @@ public class IndexController {
     @PermessionLimit(limit = false)
     @ResponseBody
     public ReturnT<Map> getDashboardInfo() {
-        Map<String, Object> dashboardMap = xxlJobService.dashboardInfo();
+        Map<String, Object> dashboardMap = xxlJobService.shuntApiDashboardInfo();
         ReturnT<Map> result = new ReturnT(ReturnT.SUCCESS_CODE, "success");
         result.setContent(dashboardMap);
         return result;
