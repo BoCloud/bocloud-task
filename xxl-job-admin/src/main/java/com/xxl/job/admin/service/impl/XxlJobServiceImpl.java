@@ -305,20 +305,6 @@ public class XxlJobServiceImpl implements XxlJobService {
 		return dashboardMap;
 	}
 
-    @Override
-    public Map<String, Object> shuntApiDashboardInfo() {
-
-        int jobInfoCount = xxlJobInfoDao.findAllCount();
-        int jobLogCount = xxlJobLogDao.triggerCountByHandleCode(-1);
-        int jobLogSuccessCount = xxlJobLogDao.triggerCountByHandleCode(ReturnT.SUCCESS_CODE);
-
-        Map<String, Object> dashboardMap = new HashMap<String, Object>();
-        dashboardMap.put("jobInfoCount", jobInfoCount);
-        dashboardMap.put("jobLogFailureCount", jobLogCount - jobLogSuccessCount);
-        dashboardMap.put("jobLogSuccessCount", jobLogSuccessCount);
-        return dashboardMap;
-    }
-
 	private static final String TRIGGER_CHART_DATA_CACHE = "trigger_chart_data_cache";
 	@Override
 	public ReturnT<Map<String, Object>> chartInfo(Date startDate, Date endDate) {

@@ -35,10 +35,8 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(Model model) {
-
         Map<String, Object> dashboardMap = xxlJobService.dashboardInfo();
         model.addAllAttributes(dashboardMap);
-
         return "index";
     }
 
@@ -46,7 +44,7 @@ public class IndexController {
     @PermessionLimit(limit = false)
     @ResponseBody
     public ReturnT<Map> getDashboardInfo() {
-        Map<String, Object> dashboardMap = xxlJobService.shuntApiDashboardInfo();
+        Map<String, Object> dashboardMap = xxlJobService.dashboardInfo();
         ReturnT<Map> result = new ReturnT(ReturnT.SUCCESS_CODE, "success");
         result.setContent(dashboardMap);
         return result;
