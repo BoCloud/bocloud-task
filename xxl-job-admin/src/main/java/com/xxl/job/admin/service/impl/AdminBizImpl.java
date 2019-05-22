@@ -60,32 +60,32 @@ public class AdminBizImpl implements AdminBiz {
         }
 
         // trigger success, to trigger child job
-        String callbackMsg = null;
+        StringBuffer callbackMsg = new StringBuffer();
         if (IJobHandler.SUCCESS.getCode() == handleCallbackParam.getExecuteResult().getCode()) {
             XxlJobInfo xxlJobInfo = xxlJobInfoDao.loadById(log.getJobId());
             if (xxlJobInfo!=null && StringUtils.isNotBlank(xxlJobInfo.getChildJobId())) {
-                callbackMsg = "<br><br><span style=\"color:#00c0ef;\" > >>>>>>>>>>>"+ I18nUtil.getString("jobconf_trigger_child_run") +"<<<<<<<<<<< </span><br>";
+                callbackMsg.append("<br><br><span style=\"color:#00c0ef;\" > >>>>>>>>>>>"+ I18nUtil.getString("jobconf_trigger_child_run") +"<<<<<<<<<<< </span><br>");
 
                 String[] childJobIds = xxlJobInfo.getChildJobId().split(",");
                 for (int i = 0; i < childJobIds.length; i++) {
-                    int childJobId = (StringUtils.isNotBlank(childJobIds[i]) && StringUtils.isNumeric(childJobIds[i]))?Integer.valueOf(childJobIds[i]):-1;
+                    int childJobId = (StringUtils.isNotBlank(childJobIds[i]) && StringUtils.isNumeric(childJobIds[i]))?Integer.parseInt(childJobIds[i]):-1;
                     if (childJobId > 0) {
 
                         JobTriggerPoolHelper.trigger(childJobId, TriggerTypeEnum.PARENT, -1, null, null);
                         ReturnT<String> triggerChildResult = ReturnT.SUCCESS;
 
                         // add msg
-                        callbackMsg += MessageFormat.format(I18nUtil.getString("jobconf_callback_child_msg1"),
+                        callbackMsg.append(MessageFormat.format(I18nUtil.getString("jobconf_callback_child_msg1"),
                                 (i+1),
                                 childJobIds.length,
                                 childJobIds[i],
                                 (triggerChildResult.getCode()==ReturnT.SUCCESS_CODE?I18nUtil.getString("system_success"):I18nUtil.getString("system_fail")),
-                                triggerChildResult.getMsg());
+                                triggerChildResult.getMsg()));
                     } else {
-                        callbackMsg += MessageFormat.format(I18nUtil.getString("jobconf_callback_child_msg2"),
+                        callbackMsg.append(MessageFormat.format(I18nUtil.getString("jobconf_callback_child_msg2"),
                                 (i+1),
                                 childJobIds.length,
-                                childJobIds[i]);
+                                childJobIds[i]));
                     }
                 }
 

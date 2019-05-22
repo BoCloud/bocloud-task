@@ -2,6 +2,7 @@ package com.xxl.job.admin.core.util;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -122,8 +123,9 @@ public class LocalCacheUtil {
      */
     public static boolean cleanTimeutCache(){
         if (!cacheRepository.keySet().isEmpty()) {
-            for (String key: cacheRepository.keySet()) {
-                LocalCacheData localCacheData = cacheRepository.get(key);
+        	for (Map.Entry<String,LocalCacheUtil.LocalCacheData> entry: cacheRepository.entrySet()) {
+        		String key = entry.getKey();
+                LocalCacheData localCacheData = entry.getValue();
                 if (localCacheData!=null && System.currentTimeMillis()>=localCacheData.getTimeoutTime()) {
                     cacheRepository.remove(key);
                 }
