@@ -111,7 +111,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
             hostAddress = service_ip == null ? hostAddress : service_ip;
             service_port = service_port == null ? "9024" : service_port;
             service_name = service_name == null ? "paas-basic-task" : service_name;
-            acl_token = acl_token == null ? "787bd467-a93e-8558-1aaf-f7c4036c406b" : acl_token;
+            //acl_token = acl_token == null ? "787bd467-a93e-8558-1aaf-f7c4036c406b" : acl_token;
 
             System.out.println("==========================");
             System.out.println("实际请求变量中读取的数据");
@@ -181,7 +181,9 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
             CloseableHttpClient httpClient = HttpClientBuilder.create().build();
             HttpPut putRequest = new HttpPut("http://" + consul_host + ":"+consul_port+"/v1/agent/service/register");
             putRequest.addHeader("Content-Type", "application/json;charset=UTF-8");
-            putRequest.addHeader("X-Consul-Token", acl_token);
+            if(acl_token != null && !"".equals(acl_token)){
+            	putRequest.addHeader("X-Consul-Token", acl_token);
+            }
             StringEntity input = null;
             try {
                 input = new StringEntity(b);
@@ -198,4 +200,5 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
             }
         }
     }
+
 }
