@@ -3,6 +3,7 @@ package com.xxl.job.admin.core.events;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.UUID;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPut;
@@ -112,6 +113,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
             service_port = service_port == null ? "9024" : service_port;
             service_name = service_name == null ? "paas-basic-task" : service_name;
             //acl_token = acl_token == null ? "787bd467-a93e-8558-1aaf-f7c4036c406b" : acl_token;
+            service_id = null == service_id? UUID.randomUUID().toString() : service_id;
 
             System.out.println("==========================");
             System.out.println("实际请求变量中读取的数据");
@@ -160,7 +162,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 //                    "  \"SkipNodeUpdate\": false" +
 //                    "}";
             String b = "{"+
-					    "\"ID\":\"4034a748-2192-161a-0510-9bf59fe950b2\","+
+					    "\"ID\":\""+service_id+"\","+
 					    "\"Name\":\""+service_name+"\","+
 //					    "\"Datacente\":\"boclouddatacentor\","+
 					    "\"Tags\":["+
