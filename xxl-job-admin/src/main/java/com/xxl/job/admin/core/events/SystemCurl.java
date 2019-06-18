@@ -3,6 +3,7 @@ package com.xxl.job.admin.core.events;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.UUID;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPut;
@@ -61,11 +62,11 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 
 //    	String consul_host = "192.168.2.171";
 //        String consul_port = "8500";
-//        String service_ip = "10.10.100.92";
+//        String service_ip = "10.10.100.49";
 //        String service_name = "paas-basic-task";
 //        String service_port = "9024";
-//        String service_id = "0123456789";
-//        String acl_token = "787bd467-a93e-8558-1aaf-f7c4036c406b";
+//        String service_id = UUID.randomUUID().toString();
+//        String acl_token = "687bd467-a93e-8558-1aaf-f7c4036c406b";
         
         System.out.println("==========================");
         System.out.println("从环境变量中读取的数据");
@@ -92,7 +93,8 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
             hostAddress = service_ip == null ? hostAddress : service_ip;
             service_port = service_port == null ? "9024" : service_port;
             service_name = service_name == null ? "paas-basic-task" : service_name;
-            acl_token = acl_token == null ? "787bd467-a93e-8558-1aaf-f7c4036c406b" : acl_token;
+            acl_token = acl_token == null ? "687bd467-a93e-8558-1aaf-f7c4036c406b" : acl_token;
+            service_id = service_id == null ? UUID.randomUUID().toString() : service_id;
 
             System.out.println("==========================");
             System.out.println("实际请求变量中读取的数据");
@@ -141,7 +143,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 //                    "  \"SkipNodeUpdate\": false" +
 //                    "}";
             String b = "{"+
-					    "\"ID\":\"4034a748-2192-161a-0510-9bf59fe950b2\","+
+					    "\"ID\":\""+service_id+"\","+
 					    "\"Name\":\""+service_name+"\","+
 //					    "\"Datacente\":\"boclouddatacentor\","+
 					    "\"Tags\":["+
