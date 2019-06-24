@@ -105,7 +105,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 			String[] childJobIds = StringUtils.split(jobInfo.getChildJobId(), ",");
 			for (String childJobIdItem: childJobIds) {
 				if (StringUtils.isNotBlank(childJobIdItem) && StringUtils.isNumeric(childJobIdItem)) {
-					XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(Integer.valueOf(childJobIdItem));
+					XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(Integer.parseInt(childJobIdItem));
 					if (childJobInfo==null) {
 						return new ReturnT<String>(ReturnT.FAIL_CODE,
 								MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId")+"({0})"+I18nUtil.getString("system_not_found")), childJobIdItem));
@@ -152,7 +152,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 			String[] childJobIds = StringUtils.split(jobInfo.getChildJobId(), ",");
 			for (String childJobIdItem: childJobIds) {
 				if (StringUtils.isNotBlank(childJobIdItem) && StringUtils.isNumeric(childJobIdItem)) {
-					XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(Integer.valueOf(childJobIdItem));
+					XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(Integer.parseInt(childJobIdItem));
 					if (childJobInfo==null) {
 						return new ReturnT<String>(ReturnT.FAIL_CODE,
 								MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId")+"({0})"+I18nUtil.getString("system_not_found")), childJobIdItem));
@@ -328,9 +328,9 @@ public class XxlJobServiceImpl implements XxlJobService {
 		if (CollectionUtils.isNotEmpty(triggerCountMapAll)) {
 			for (Map<String, Object> item: triggerCountMapAll) {
 				String day = String.valueOf(item.get("triggerDay"));
-				int triggerDayCount = Integer.valueOf(String.valueOf(item.get("triggerDayCount")));
-				int triggerDayCountRunning = Integer.valueOf(String.valueOf(item.get("triggerDayCountRunning")));
-				int triggerDayCountSuc = Integer.valueOf(String.valueOf(item.get("triggerDayCountSuc")));
+				int triggerDayCount = Integer.parseInt(String.valueOf(item.get("triggerDayCount")));
+				int triggerDayCountRunning = Integer.parseInt(String.valueOf(item.get("triggerDayCountRunning")));
+				int triggerDayCountSuc = Integer.parseInt(String.valueOf(item.get("triggerDayCountSuc")));
 				int triggerDayCountFail = triggerDayCount - triggerDayCountRunning - triggerDayCountSuc;
 
 				triggerDayList.add(day);

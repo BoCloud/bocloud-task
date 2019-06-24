@@ -1,12 +1,12 @@
 package com.xxl.job.admin.core.route.strategy;
 
-import com.xxl.job.admin.core.route.ExecutorRouter;
-import com.xxl.job.core.biz.model.ReturnT;
-import com.xxl.job.core.biz.model.TriggerParam;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.xxl.job.admin.core.route.ExecutorRouter;
+import com.xxl.job.core.biz.model.ReturnT;
+import com.xxl.job.core.biz.model.TriggerParam;
 
 /**
  * 单个JOB对应的每个执行器，最久为使用的优先被选举
@@ -37,7 +37,8 @@ public class ExecutorRouteLRU extends ExecutorRouter {
              *      b、removeEldestEntry：新增元素时将会调用，返回true时会删除最老元素；可封装LinkedHashMap并重写该方法，比如定义最大容量，超出是返回true即可实现固定长度的LRU算法；
              */
             lruItem = new LinkedHashMap<String, String>(16, 0.75f, true);
-            jobLRUMap.putIfAbsent(jobId, lruItem);
+            LinkedHashMap<String, String> itemMap = new LinkedHashMap<String, String>(16, 0.75f, true);
+            jobLRUMap.putIfAbsent(jobId, itemMap);
         }
 
         // put

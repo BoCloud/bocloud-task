@@ -145,7 +145,9 @@ public class JobThread extends Thread{
 
 							executeResult = new ReturnT<String>(IJobHandler.FAIL_TIMEOUT.getCode(), "job execute timeout ");
 						} finally {
-							futureThread.interrupt();
+							if(null != futureThread){
+								futureThread.interrupt();
+							}
 						}
 					} else {
 						// just execute
