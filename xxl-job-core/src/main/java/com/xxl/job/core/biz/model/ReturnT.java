@@ -13,8 +13,12 @@ public class ReturnT<T> implements Serializable {
 	public static final int SUCCESS_CODE = 200;
 	public static final int FAIL_CODE = 500;
 
+	public static final int FAIL_JOB_NOT_EXIST = 400;
+
 	public static final ReturnT<String> SUCCESS = new ReturnT<String>(null);
 	public static final ReturnT<String> FAIL = new ReturnT<String>(FAIL_CODE, null);
+
+    public static final ReturnT<String> JOB_NOT_EXIST = new ReturnT<String>(FAIL_JOB_NOT_EXIST, null);
 
 	private int code;
 	private String msg;
@@ -29,7 +33,7 @@ public class ReturnT<T> implements Serializable {
 		this.code = SUCCESS_CODE;
 		this.content = content;
 	}
-	
+
 	public int getCode() {
 		return code;
 	}

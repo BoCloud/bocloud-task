@@ -43,21 +43,21 @@ public class XxlJobServiceImpl implements XxlJobService {
 	public XxlJobLogDao xxlJobLogDao;
 	@Resource
 	private XxlJobLogGlueDao xxlJobLogGlueDao;
-	
+
 	@Override
 	public Map<String, Object> pageList(int start, int length, int jobGroup, String jobDesc, String executorHandler, String filterTime) {
 
 		// page list
 		List<XxlJobInfo> list = xxlJobInfoDao.pageList(start, length, jobGroup, jobDesc, executorHandler);
 		int list_count = xxlJobInfoDao.pageListCount(start, length, jobGroup, jobDesc, executorHandler);
-		
+
 		// fill job info
 		if (list!=null && list.size()>0) {
 			for (XxlJobInfo jobInfo : list) {
 				XxlJobDynamicScheduler.fillJobInfo(jobInfo);
 			}
 		}
-		
+
 		// package result
 		Map<String, Object> maps = new HashMap<String, Object>();
 	    maps.put("recordsTotal", list_count);		// 总记录数
@@ -202,6 +202,9 @@ public class XxlJobServiceImpl implements XxlJobService {
 	@Override
 	public ReturnT<String> remove(int id) {
 		XxlJobInfo xxlJobInfo = xxlJobInfoDao.loadById(id);
+		if( xxlJobInfo == null ){
+		    return ReturnT.JOB_NOT_EXIST;
+        }
         String group = String.valueOf(xxlJobInfo.getJobGroup());
         String name = String.valueOf(xxlJobInfo.getId());
 
