@@ -81,11 +81,11 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 
 //    	String consul_host = "192.168.2.171";
 //        String consul_port = "8500";
-//        String service_ip = "10.10.100.92";
+//        String service_ip = "10.10.100.49";
 //        String service_name = "paas-basic-task";
 //        String service_port = "9024";
-//        String service_id = "0123456789";
-//        String acl_token = "787bd467-a93e-8558-1aaf-f7c4036c406b";
+//        String service_id = UUID.randomUUID().toString();
+//        String acl_token = "687bd467-a93e-8558-1aaf-f7c4036c406b";
         
         System.out.println("==========================");
         System.out.println("从环境变量中读取的数据");
