@@ -5,6 +5,7 @@ RUN ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
 RUN mkdir -p /opt/paas/images/paas-basic-task
 ENV CONTROL_PATH /opt/paas/images/paas-basic-task
 COPY application.properties $CONTROL_PATH
+ADD xxl-job-admin/target/xxl-job-admin-*.jar /paas-basic-task.jar
 COPY paas-basic-task.jar $CONTROL_PATH
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh /
