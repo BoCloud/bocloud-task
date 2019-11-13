@@ -285,6 +285,8 @@ public class XxlJobServiceImpl implements XxlJobService {
 		int jobInfoCount = xxlJobInfoDao.findAllCount();
 		int jobLogCount = xxlJobLogDao.triggerCountByHandleCode(-1);
 		int jobLogSuccessCount = xxlJobLogDao.triggerCountByHandleCode(ReturnT.SUCCESS_CODE);
+		int jobLogFailCount = xxlJobLogDao.triggerCountByHandleCode(ReturnT.FAIL_CODE);
+
 
 		// executor count
 		Set<String> executerAddressSet = new HashSet<String>();
@@ -305,6 +307,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 		dashboardMap.put("jobLogCount", jobLogCount);
 		dashboardMap.put("jobLogSuccessCount", jobLogSuccessCount);
 		dashboardMap.put("executorCount", executorCount);
+		dashboardMap.put("jobLogFailCount", jobLogFailCount);
 		return dashboardMap;
 	}
 
