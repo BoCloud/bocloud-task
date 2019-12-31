@@ -1,4 +1,4 @@
-FROM openjdk:8u171-alpine 
+FROM openjdk:8-jdk-alpine
 MAINTAINER beyondcent.com
 ENV  TIME_ZONE Asia/Shanghai
 RUN ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
