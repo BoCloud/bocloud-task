@@ -111,7 +111,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
             }
             hostAddress = service_ip == null ? hostAddress : service_ip;
             service_port = service_port == null ? "9024" : service_port;
-            service_name = service_name == null ? "paas-basic-task" : service_name;
+            service_name = service_name == null ? "bocloud-task" : service_name;
             //acl_token = acl_token == null ? "787bd467-a93e-8558-1aaf-f7c4036c406b" : acl_token;
             service_id = null == service_id? UUID.randomUUID().toString() : service_id;
 
@@ -166,7 +166,7 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 					    "\"Name\":\""+service_name+"\","+
 //					    "\"Datacente\":\"boclouddatacentor\","+
 					    "\"Tags\":["+
-					    "    \"urlprefix-/paas-basic-task\","+
+					    "    \"urlprefix-/bocloud-task\","+
 					    "    \"secure=false\""+
 					    "],"+
 					    "\"Address\":\"" + hostAddress + "\","+
@@ -194,9 +194,9 @@ public class SystemCurl implements ApplicationListener<ContextRefreshedEvent> {
 
                 putRequest.setEntity(input);
                 HttpResponse response = httpClient.execute(putRequest);
-                System.out.println("==========================paas-basic-task registry result:==========================");
+                System.out.println("==========================bocloud-task registry result:==========================");
                 System.out.println(EntityUtils.toString(response.getEntity()));
-                System.out.println("==========================paas-basic-task registry end:=============================");
+                System.out.println("==========================bocloud-task registry end:=============================");
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,5 @@
-CREATE database if NOT EXISTS `paas-basic-task` default character set utf8 collate utf8_general_ci;
-use `paas-basic-task`;
+CREATE database if NOT EXISTS `bocloud-task` default character set utf8 collate utf8_general_ci;
+use `bocloud-task`;
 
 
 

@@ -2,10 +2,10 @@ FROM openjdk:8-jdk-alpine
 MAINTAINER beyondcent.com
 ENV  TIME_ZONE Asia/Shanghai
 RUN ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
-RUN mkdir -p /opt/paas/images/paas-basic-task
-ENV CONTROL_PATH /opt/paas/images/paas-basic-task
+RUN mkdir -p /opt/paas/images/bocloud-task
+ENV CONTROL_PATH /opt/paas/images/bocloud-task
 COPY application.properties $CONTROL_PATH
-COPY xxl-job-admin/target/xxl-job-admin-*.jar $CONTROL_PATH/paas-basic-task.jar
+COPY xxl-job-admin/target/xxl-job-admin-*.jar $CONTROL_PATH/bocloud-task.jar
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN ln -s usr/local/bin/docker-entrypoint.sh /
 
@@ -27,4 +27,4 @@ ENV acl_token 787bd467-a93e-8558-1aaf-f7c4036c406b
 EXPOSE 9024
 WORKDIR $CONTROL_PATH
 ENTRYPOINT ["/docker-entrypoint.sh"] 
-CMD ["java", "-Dspring.config.location=application.properties", "-jar", "paas-basic-task.jar", "/bin/bash"]
+CMD ["java", "-Dspring.config.location=application.properties", "-jar", "bocloud-task.jar", "/bin/bash"]
