@@ -1,8 +1,5 @@
 package com.xxl.job.admin.core.util;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -65,10 +62,10 @@ public class LocalCacheUtil {
     public static boolean set(String key, Object val, long cacheTime){
 
         // clean timeout cache, before set new cache (avoid cache too much)
-        cleanTimeutCache();
+        cleanTimeoutCache();
 
         // set new cache
-        if (StringUtils.isBlank(key)) {
+        if (key==null || key.trim().length()==0) {
             return false;
         }
         if (val == null) {
@@ -90,7 +87,7 @@ public class LocalCacheUtil {
      * @return
      */
     public static boolean remove(String key){
-        if (StringUtils.isBlank(key)) {
+        if (key==null || key.trim().length()==0) {
             return false;
         }
         cacheRepository.remove(key);
@@ -104,7 +101,7 @@ public class LocalCacheUtil {
      * @return
      */
     public static Object get(String key){
-        if (StringUtils.isBlank(key)) {
+        if (key==null || key.trim().length()==0) {
             return null;
         }
         LocalCacheData localCacheData = cacheRepository.get(key);
@@ -121,11 +118,10 @@ public class LocalCacheUtil {
      *
      * @return
      */
-    public static boolean cleanTimeutCache(){
+    public static boolean cleanTimeoutCache(){
         if (!cacheRepository.keySet().isEmpty()) {
-        	for (Map.Entry<String,LocalCacheUtil.LocalCacheData> entry: cacheRepository.entrySet()) {
-        		String key = entry.getKey();
-                LocalCacheData localCacheData = entry.getValue();
+            for (String key: cacheRepository.keySet()) {
+                LocalCacheData localCacheData = cacheRepository.get(key);
                 if (localCacheData!=null && System.currentTimeMillis()>=localCacheData.getTimeoutTime()) {
                     cacheRepository.remove(key);
                 }

@@ -1,155 +1,9 @@
-CREATE database if NOT EXISTS `bocloud-task` default character set utf8 collate utf8_general_ci;
-use `bocloud-task`;
+CREATE database if NOT EXISTS `paas_basic_task` default character set utf8mb4 collate utf8mb4_unicode_ci;
+use `paas_basic_task`;
 
+SET NAMES utf8mb4;
 
-
-CREATE TABLE XXL_JOB_QRTZ_JOB_DETAILS
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    JOB_NAME  VARCHAR(200) NOT NULL,
-    JOB_GROUP VARCHAR(200) NOT NULL,
-    DESCRIPTION VARCHAR(250) NULL,
-    JOB_CLASS_NAME   VARCHAR(250) NOT NULL,
-    IS_DURABLE VARCHAR(1) NOT NULL,
-    IS_NONCONCURRENT VARCHAR(1) NOT NULL,
-    IS_UPDATE_DATA VARCHAR(1) NOT NULL,
-    REQUESTS_RECOVERY VARCHAR(1) NOT NULL,
-    JOB_DATA BLOB NULL,
-    PRIMARY KEY (SCHED_NAME,JOB_NAME,JOB_GROUP)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_TRIGGERS
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    JOB_NAME  VARCHAR(200) NOT NULL,
-    JOB_GROUP VARCHAR(200) NOT NULL,
-    DESCRIPTION VARCHAR(250) NULL,
-    NEXT_FIRE_TIME BIGINT(13) NULL,
-    PREV_FIRE_TIME BIGINT(13) NULL,
-    PRIORITY INTEGER NULL,
-    TRIGGER_STATE VARCHAR(16) NOT NULL,
-    TRIGGER_TYPE VARCHAR(8) NOT NULL,
-    START_TIME BIGINT(13) NOT NULL,
-    END_TIME BIGINT(13) NULL,
-    CALENDAR_NAME VARCHAR(200) NULL,
-    MISFIRE_INSTR SMALLINT(2) NULL,
-    JOB_DATA BLOB NULL,
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,JOB_NAME,JOB_GROUP)
-        REFERENCES XXL_JOB_QRTZ_JOB_DETAILS(SCHED_NAME,JOB_NAME,JOB_GROUP)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_SIMPLE_TRIGGERS
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    REPEAT_COUNT BIGINT(7) NOT NULL,
-    REPEAT_INTERVAL BIGINT(12) NOT NULL,
-    TIMES_TRIGGERED BIGINT(10) NOT NULL,
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-        REFERENCES XXL_JOB_QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_CRON_TRIGGERS
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    CRON_EXPRESSION VARCHAR(200) NOT NULL,
-    TIME_ZONE_ID VARCHAR(80),
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-        REFERENCES XXL_JOB_QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_SIMPROP_TRIGGERS
-  (          
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    STR_PROP_1 VARCHAR(512) NULL,
-    STR_PROP_2 VARCHAR(512) NULL,
-    STR_PROP_3 VARCHAR(512) NULL,
-    INT_PROP_1 INT NULL,
-    INT_PROP_2 INT NULL,
-    LONG_PROP_1 BIGINT NULL,
-    LONG_PROP_2 BIGINT NULL,
-    DEC_PROP_1 NUMERIC(13,4) NULL,
-    DEC_PROP_2 NUMERIC(13,4) NULL,
-    BOOL_PROP_1 VARCHAR(1) NULL,
-    BOOL_PROP_2 VARCHAR(1) NULL,
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP) 
-    REFERENCES XXL_JOB_QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_BLOB_TRIGGERS
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    BLOB_DATA BLOB NULL,
-    PRIMARY KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP),
-    FOREIGN KEY (SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-        REFERENCES XXL_JOB_QRTZ_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_CALENDARS
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    CALENDAR_NAME  VARCHAR(200) NOT NULL,
-    CALENDAR BLOB NOT NULL,
-    PRIMARY KEY (SCHED_NAME,CALENDAR_NAME)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_PAUSED_TRIGGER_GRPS
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    TRIGGER_GROUP  VARCHAR(200) NOT NULL, 
-    PRIMARY KEY (SCHED_NAME,TRIGGER_GROUP)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_FIRED_TRIGGERS
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    ENTRY_ID VARCHAR(95) NOT NULL,
-    TRIGGER_NAME VARCHAR(200) NOT NULL,
-    TRIGGER_GROUP VARCHAR(200) NOT NULL,
-    INSTANCE_NAME VARCHAR(200) NOT NULL,
-    FIRED_TIME BIGINT(13) NOT NULL,
-    SCHED_TIME BIGINT(13) NOT NULL,
-    PRIORITY INTEGER NOT NULL,
-    STATE VARCHAR(16) NOT NULL,
-    JOB_NAME VARCHAR(200) NULL,
-    JOB_GROUP VARCHAR(200) NULL,
-    IS_NONCONCURRENT VARCHAR(1) NULL,
-    REQUESTS_RECOVERY VARCHAR(1) NULL,
-    PRIMARY KEY (SCHED_NAME,ENTRY_ID)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_SCHEDULER_STATE
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    INSTANCE_NAME VARCHAR(200) NOT NULL,
-    LAST_CHECKIN_TIME BIGINT(13) NOT NULL,
-    CHECKIN_INTERVAL BIGINT(13) NOT NULL,
-    PRIMARY KEY (SCHED_NAME,INSTANCE_NAME)
-);
-
-CREATE TABLE XXL_JOB_QRTZ_LOCKS
-  (
-    SCHED_NAME VARCHAR(120) NOT NULL,
-    LOCK_NAME  VARCHAR(40) NOT NULL, 
-    PRIMARY KEY (SCHED_NAME,LOCK_NAME)
-);
-
-
-
-CREATE TABLE `XXL_JOB_QRTZ_TRIGGER_INFO` (
+CREATE TABLE `xxl_job_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `job_group` int(11) NOT NULL COMMENT '执行器主键ID',
   `job_cron` varchar(128) NOT NULL COMMENT '任务执行CRON',
@@ -169,11 +23,34 @@ CREATE TABLE `XXL_JOB_QRTZ_TRIGGER_INFO` (
   `glue_remark` varchar(128) DEFAULT NULL COMMENT 'GLUE备注',
   `glue_updatetime` datetime DEFAULT NULL COMMENT 'GLUE更新时间',
   `child_jobid` varchar(255) DEFAULT NULL COMMENT '子任务ID，多个逗号分隔',
+  `trigger_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '调度状态：0-停止，1-运行',
+  `trigger_last_time` bigint(13) NOT NULL DEFAULT '0' COMMENT '上次调度时间',
+  `trigger_next_time` bigint(13) NOT NULL DEFAULT '0' COMMENT '下次调度时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `XXL_JOB_QRTZ_TRIGGER_LOG` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+INSERT INTO `xxl_job_info` VALUES (1, 1, '0 0 8 ? * *', '集群报表统计', '2020-04-15 14:52:53', '2020-04-15 15:14:58', 'admin', '', 'ROUND', 'clusterJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 14:52:53', '', 0, 0, 1586995200000);
+INSERT INTO `xxl_job_info` VALUES (2, 1, '0 0 8 ? * *', '分区报表统计', '2020-04-15 14:56:34', '2020-04-15 14:56:34', 'admin', '', 'ROUND', 'partitionJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 14:56:34', '', 0, 0, 0);
+INSERT INTO `xxl_job_info` VALUES (3, 1, '0 0 8 ? * *', '主机报表统计', '2020-04-15 14:57:19', '2020-04-15 14:57:19', 'admin', '', 'ROUND', 'hostJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 14:57:19', '', 0, 0, 0);
+INSERT INTO `xxl_job_info` VALUES (4, 1, '0 0 8 ? * *', '租户报表统计', '2020-04-15 14:58:15', '2020-04-15 14:58:15', 'admin', '', 'ROUND', 'envJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 14:58:15', '', 0, 0, 0);
+INSERT INTO `xxl_job_info` VALUES (5, 1, '0 0 8 ? * *', '告警历史报表统计', '2020-04-15 14:58:38', '2020-04-15 14:58:38', 'admin', '', 'ROUND', 'alertHistoryJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 14:58:38', '', 0, 0, 0);
+INSERT INTO `xxl_job_info` VALUES (6, 1, '0 0 8 ? * *', '操作审计报表统计', '2020-04-15 14:59:06', '2020-04-15 14:59:06', 'admin', '', 'ROUND', 'actionAuditJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 14:59:06', '', 0, 0, 0);
+INSERT INTO `xxl_job_info` VALUES (7, 1, '0 0 8 ? * *', '应用报表统计', '2020-04-15 14:59:27', '2020-04-15 14:59:27', 'admin', '', 'ROUND', 'projectCoreJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 14:59:27', '', 0, 0, 0);
+INSERT INTO `xxl_job_info` VALUES (8, 1, '0 0 * * * ?', '计量计费定时任务', '2020-04-15 15:01:21', '2020-04-15 15:01:21', 'admin', '', 'ROUND', 'billJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:01:21', '', 0, 0, 0);
+INSERT INTO `xxl_job_info` VALUES (9, 2, '0 0/5 * * * ?', '跨仓库镜像同步后台定时任务', '2020-04-15 15:03:34', '2020-04-15 15:03:34', 'admin', '', 'ROUND', 'betweenRegistryCopyImageJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:03:34', '', 1, 0, 1586935200000);
+INSERT INTO `xxl_job_info` VALUES (10, 2, '0/30 * * * * ?', '集群健康检查后台定时任务', '2020-04-15 15:04:21', '2020-04-15 15:04:21', 'admin', '', 'ROUND', 'clusterHealthCheckJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:04:21', '', 1, 1586935110000, 1586935140000);
+INSERT INTO `xxl_job_info` VALUES (11, 2, '0/30 * * * * ?', '安装中/删除中节点更新定时任务', '2020-04-15 15:05:06', '2020-04-15 15:05:06', 'admin', '', 'ROUND', 'hostProcessCheckJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:05:06', '', 1, 1586935110000, 1586935140000);
+INSERT INTO `xxl_job_info` VALUES (12, 2, '0 0/5 * * * ?', '仓库健康检查后台定时任务', '2020-04-15 15:07:33', '2020-04-15 15:07:33', 'admin', '', 'ROUND', 'registryHealthCheckJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:07:33', '', 1, 0, 1586935200000);
+INSERT INTO `xxl_job_info` VALUES (13, 2, '0 0/5 * * * ?', '后台同步镜像定时任务', '2020-04-15 15:08:01', '2020-04-15 15:08:01', 'admin', '', 'ROUND', 'registrySynchronousImageJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:08:01', '', 1, 0, 1586935200000);
+INSERT INTO `xxl_job_info` VALUES (14, 2, '0 0/5 * * * ?', '后台镜像扫描定时任务', '2020-04-15 15:08:36', '2020-04-15 15:08:36', 'admin', '', 'ROUND', 'ImageScannerJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:08:36', '', 1, 0, 1586935200000);
+INSERT INTO `xxl_job_info` VALUES (15, 2, '0 0 2 * * ?', '镜像定时清理策略任务', '2020-04-15 15:09:15', '2020-04-15 15:09:15', 'admin', '', 'ROUND', 'exeImageSetPolicyJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:09:15', '', 1, 0, 1586973600000);
+INSERT INTO `xxl_job_info` VALUES (16, 2, '0/30 * * * * ?', 'Pod更新分区定时任务开始', '2020-04-15 15:09:38', '2020-04-15 15:09:38', 'admin', '', 'ROUND', 'updatePartitionPodJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:09:38', '', 1, 1586935110000, 1586935140000);
+INSERT INTO `xxl_job_info` VALUES (17, 3, '0/3 * * * * ?', '流水线后台服务监控', '2020-04-15 15:10:07', '2020-04-15 15:10:07', 'admin', '', 'ROUND', 'jenkinsBuildingHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:10:07', '', 1, 1586935113000, 1586935116000);
+INSERT INTO `xxl_job_info` VALUES (18, 4, '0 */1 * * * ?', '组件状态检测', '2020-04-15 15:10:36', '2020-04-15 15:10:36', 'admin', '', 'ROUND', 'componentStatusJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:10:36', '', 1, 1586935080000, 1586935140000);
+
+
+CREATE TABLE `xxl_job_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `job_group` int(11) NOT NULL COMMENT '执行器主键ID',
   `job_id` int(11) NOT NULL COMMENT '任务，主键ID',
   `executor_address` varchar(255) DEFAULT NULL COMMENT '执行器地址，本次执行的地址',
@@ -187,44 +64,74 @@ CREATE TABLE `XXL_JOB_QRTZ_TRIGGER_LOG` (
   `handle_time` datetime DEFAULT NULL COMMENT '执行-时间',
   `handle_code` int(11) NOT NULL COMMENT '执行-状态',
   `handle_msg` text COMMENT '执行-日志',
+  `alarm_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '告警状态：0-默认、1-无需告警、2-告警成功、3-告警失败',
   PRIMARY KEY (`id`),
-  KEY `I_trigger_time` (`trigger_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `I_trigger_time` (`trigger_time`),
+  KEY `I_handle_code` (`handle_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `XXL_JOB_QRTZ_TRIGGER_LOGGLUE` (
+CREATE TABLE `xxl_job_log_report` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `trigger_day` datetime DEFAULT NULL COMMENT '调度-时间',
+  `running_count` int(11) NOT NULL DEFAULT '0' COMMENT '运行中-日志数量',
+  `suc_count` int(11) NOT NULL DEFAULT '0' COMMENT '执行成功-日志数量',
+  `fail_count` int(11) NOT NULL DEFAULT '0' COMMENT '执行失败-日志数量',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `i_trigger_day` (`trigger_day`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `xxl_job_logglue` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `job_id` int(11) NOT NULL COMMENT '任务，主键ID',
   `glue_type` varchar(50) DEFAULT NULL COMMENT 'GLUE类型',
   `glue_source` mediumtext COMMENT 'GLUE源代码',
   `glue_remark` varchar(128) NOT NULL COMMENT 'GLUE备注',
-  `add_time` timestamp NULL DEFAULT NULL,
-  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `add_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE XXL_JOB_QRTZ_TRIGGER_REGISTRY (
+CREATE TABLE `xxl_job_registry` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `registry_group` varchar(255) NOT NULL,
+  `registry_group` varchar(50) NOT NULL,
   `registry_key` varchar(255) NOT NULL,
   `registry_value` varchar(255) NOT NULL,
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `i_g_k_v` (`registry_group`,`registry_key`,`registry_value`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `XXL_JOB_QRTZ_TRIGGER_GROUP` (
+CREATE TABLE `xxl_job_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app_name` varchar(64) NOT NULL COMMENT '执行器AppName',
   `title` varchar(12) NOT NULL COMMENT '执行器名称',
-  `order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '排序',
   `address_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '执行器地址类型：0=自动注册、1=手动录入',
   `address_list` varchar(512) DEFAULT NULL COMMENT '执行器地址列表，多地址逗号分隔',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `xxl_job_group` VALUES (1, 'task-boc-report', '报表执行器', 0, '192.168.2.170:10097');
+INSERT INTO `xxl_job_group` VALUES (2, 'task-boc-runtime', 'runtime执行器', 0, '192.168.2.170:10096');
+INSERT INTO `xxl_job_group` VALUES (3, 'task-bocloud-pipeline', '流水线定时任务', 0, '10.10.100.92:10098');
+INSERT INTO `xxl_job_group` VALUES (4, 'task-boms-broker', 'broker执行器', 0, '10.20.11.112:9999');
 
+CREATE TABLE `xxl_job_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL COMMENT '账号',
+  `password` varchar(50) NOT NULL COMMENT '密码',
+  `role` tinyint(4) NOT NULL COMMENT '角色：0-普通用户、1-管理员',
+  `permission` varchar(255) DEFAULT NULL COMMENT '权限：执行器ID列表，多个逗号分割',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `i_username` (`username`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `XXL_JOB_QRTZ_TRIGGER_GROUP`(`id`, `app_name`, `title`, `order`, `address_type`, `address_list`) VALUES (1, 'xxl-job-executor-sample', '示例执行器', 1, 0, NULL);
-INSERT INTO `XXL_JOB_QRTZ_TRIGGER_INFO`(`id`, `job_group`, `job_cron`, `job_desc`, `add_time`, `update_time`, `author`, `alarm_email`, `executor_route_strategy`, `executor_handler`, `executor_param`, `executor_block_strategy`, `executor_timeout`, `executor_fail_retry_count`, `glue_type`, `glue_source`, `glue_remark`, `glue_updatetime`, `child_jobid`) VALUES (1, 1, '0 0 0 * * ? *', '测试任务1', '2018-11-03 22:21:31', '2018-11-03 22:21:31', 'XXL', '', 'FIRST', 'demoJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2018-11-03 22:21:31', '');
+CREATE TABLE `xxl_job_lock` (
+  `lock_name` varchar(50) NOT NULL COMMENT '锁名称',
+  PRIMARY KEY (`lock_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `xxl_job_user`(`id`, `username`, `password`, `role`, `permission`) VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL);
+INSERT INTO `xxl_job_lock` ( `lock_name`) VALUES ( 'schedule_lock');
 
 commit;
 
