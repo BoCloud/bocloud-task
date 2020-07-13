@@ -1,4 +1,4 @@
-CREATE database if NOT EXISTS `paas_basic_task` default character set utf8mb4 collate utf8mb4_unicode_ci;
+CREATE database if NOT EXISTS `paas_basic_task` default character set utf8mb4 collate utf8mb4_general_ci;
 use `paas_basic_task`;
 
 SET NAMES utf8mb4;
@@ -45,8 +45,9 @@ INSERT INTO `xxl_job_info` VALUES (13, 2, '0 0/5 * * * ?', '后台同步镜像�
 INSERT INTO `xxl_job_info` VALUES (14, 2, '0 0/5 * * * ?', '后台镜像扫描定时任务', '2020-04-15 15:08:36', '2020-04-15 15:08:36', 'admin', '', 'ROUND', 'ImageScannerJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:08:36', '', 1, 0, 1586935200000);
 INSERT INTO `xxl_job_info` VALUES (15, 2, '0 0 2 * * ?', '镜像定时清理策略任务', '2020-04-15 15:09:15', '2020-04-15 15:09:15', 'admin', '', 'ROUND', 'exeImageSetPolicyJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:09:15', '', 1, 0, 1586973600000);
 INSERT INTO `xxl_job_info` VALUES (16, 2, '0/30 * * * * ?', 'Pod更新分区定时任务开始', '2020-04-15 15:09:38', '2020-04-15 15:09:38', 'admin', '', 'ROUND', 'updatePartitionPodJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:09:38', '', 1, 1586935110000, 1586935140000);
-INSERT INTO `xxl_job_info` VALUES (17, 3, '0/3 * * * * ?', '流水线后台服务监控', '2020-04-15 15:10:07', '2020-04-15 15:10:07', 'admin', '', 'ROUND', 'jenkinsBuildingHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:10:07', '', 1, 1586935113000, 1586935116000);
-INSERT INTO `xxl_job_info` VALUES (18, 4, '0 */1 * * * ?', '组件状态检测', '2020-04-15 15:10:36', '2020-04-15 15:10:36', 'admin', '', 'ROUND', 'componentStatusJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:10:36', '', 1, 1586935080000, 1586935140000);
+INSERT INTO `xxl_job_info` VALUES (17, 2, '0/30 * * * * ?', '检查节点标签定时任务', '2020-04-15 15:09:38', '2020-04-15 15:09:38', 'admin', '', 'FIRST', 'checkHostLabelJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:09:38', '', 1, 1586935110000, 1586935140000);
+INSERT INTO `xxl_job_info` VALUES (18, 3, '0/3 * * * * ?', '流水线后台服务监控', '2020-04-15 15:10:07', '2020-04-15 15:10:07', 'admin', '', 'ROUND', 'jenkinsBuildingHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:10:07', '', 1, 1586935113000, 1586935116000);
+INSERT INTO `xxl_job_info` VALUES (19, 4, '0 */1 * * * ?', '组件状态检测', '2020-04-15 15:10:36', '2020-04-15 15:10:36', 'admin', '', 'ROUND', 'componentStatusJobHandler', '', 'SERIAL_EXECUTION', 0, 0, 'BEAN', '', 'GLUE代码初始化', '2020-04-15 15:10:36', '', 1, 1586935080000, 1586935140000);
 
 
 CREATE TABLE `xxl_job_log` (
