@@ -41,6 +41,15 @@ public class IndexController {
 
 		return "index";
 	}
+	@RequestMapping("/dashboardInfo")
+	@PermissionLimit(limit = false)
+	@ResponseBody
+	public ReturnT<Map> getDashboardInfo() {
+		Map<String, Object> dashboardMap = xxlJobService.dashboardInfo();
+		ReturnT<Map> result = new ReturnT(ReturnT.SUCCESS_CODE, "success");
+		result.setContent(dashboardMap);
+		return result;
+	}
 
     @RequestMapping("/chartInfo")
 	@ResponseBody
