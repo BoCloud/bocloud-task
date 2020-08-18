@@ -60,8 +60,21 @@ public class JobGroupController {
         return maps;
     }
 
+    @RequestMapping("/all")
+    @ResponseBody
+    @PermissionLimit(limit = false)
+    public ReturnT<List> getAllJobGroup() {
+        List<XxlJobGroup> jobGroupList = xxlJobGroupDao.findAll();
+        ReturnT<List> result = new ReturnT<List>();
+        result.setCode(ReturnT.SUCCESS_CODE);
+        result.setContent(jobGroupList);
+        return result;
+    }
+
+
     @RequestMapping("/save")
     @ResponseBody
+    @PermissionLimit(limit=false)
     public ReturnT<String> save(XxlJobGroup xxlJobGroup) {
 
         // valid
@@ -92,6 +105,7 @@ public class JobGroupController {
 
     @RequestMapping("/update")
     @ResponseBody
+    @PermissionLimit(limit=false)
     public ReturnT<String> update(XxlJobGroup xxlJobGroup) {
         // valid
         if (xxlJobGroup.getAppname() == null || xxlJobGroup.getAppname().trim().length() == 0) {
@@ -157,6 +171,7 @@ public class JobGroupController {
 
     @RequestMapping("/remove")
     @ResponseBody
+    @PermissionLimit(limit=false)
     public ReturnT<String> remove(int id) {
 
         // valid
@@ -176,6 +191,7 @@ public class JobGroupController {
 
     @RequestMapping("/loadById")
     @ResponseBody
+    @PermissionLimit(limit=false)
     public ReturnT<XxlJobGroup> loadById(int id) {
         XxlJobGroup jobGroup = xxlJobGroupDao.load(id);
         return jobGroup != null ? new ReturnT<XxlJobGroup>(jobGroup) : new ReturnT<XxlJobGroup>(ReturnT.FAIL_CODE, null);
