@@ -11,6 +11,7 @@ import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.RegistryConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -71,6 +72,13 @@ public class JobGroupController {
         return result;
     }
 
+    @RequestMapping("/add")
+    @ResponseBody
+    @PermissionLimit(limit=false)
+    public ReturnT<String> add(@RequestBody XxlJobGroup xxlJobGroup) {
+        return this.save(xxlJobGroup);
+    }
+
 
     @RequestMapping("/save")
     @ResponseBody
@@ -101,6 +109,13 @@ public class JobGroupController {
 
         int ret = xxlJobGroupDao.save(xxlJobGroup);
         return (ret > 0) ? ReturnT.SUCCESS : ReturnT.FAIL;
+    }
+
+    @RequestMapping("/modify")
+    @ResponseBody
+    @PermissionLimit(limit=false)
+    public ReturnT<String> modify(@RequestBody XxlJobGroup xxlJobGroup) {
+        return this.update(xxlJobGroup);
     }
 
     @RequestMapping("/update")
