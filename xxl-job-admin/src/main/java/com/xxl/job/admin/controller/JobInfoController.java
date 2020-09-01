@@ -19,6 +19,7 @@ import com.xxl.job.core.glue.GlueTypeEnum;
 import com.xxl.job.core.util.DateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -101,11 +102,25 @@ public class JobInfoController {
 		return xxlJobService.pageList(start, length, jobGroup, triggerStatus, jobDesc, executorHandler, author);
 	}
 
+	@RequestMapping("/save")
+	@ResponseBody
+	@PermissionLimit(limit = false)
+	public ReturnT<String> save(@RequestBody XxlJobInfo jobInfo) {
+		return xxlJobService.add(jobInfo);
+	}
+
 	@RequestMapping("/add")
 	@ResponseBody
 	@PermissionLimit(limit = false)
 	public ReturnT<String> add(XxlJobInfo jobInfo) {
 		return xxlJobService.add(jobInfo);
+	}
+
+	@RequestMapping("/modify")
+	@ResponseBody
+	@PermissionLimit(limit = false)
+	public ReturnT<String> modify(@RequestBody XxlJobInfo jobInfo) {
+		return xxlJobService.update(jobInfo);
 	}
 
 	@RequestMapping("/update")
