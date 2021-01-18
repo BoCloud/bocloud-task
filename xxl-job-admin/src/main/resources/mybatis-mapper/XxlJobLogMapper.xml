@@ -226,6 +226,14 @@
 			#{item}
 		</foreach>
 	</delete>
+	<delete id="bizCleanLog">
+		DELETE log FROM xxl_job_log AS log,(
+		SELECT min(id) as min_id FROM (SELECT id from xxl_job_log WHERE trigger_code = 200 ORDER BY id desc limit 1000) as tp
+		) AS success_tmp, (
+		SELECT min(id) as min_id FROM (SELECT id from xxl_job_log WHERE trigger_code = 500 AND trigger_time >= DATE_SUB(NOW(), INTERVAL 3 MONTH)) as tp
+		) AS fail_tmp
+		WHERE (log.id <![CDATA[ < ]]> success_tmp.min_id AND trigger_code = 200) OR (log.id <![CDATA[ < ]]> fail_tmp.min_id AND trigger_code = 500)
+	</delete>
 
 	<select id="findFailJobLogIds" resultType="long" >
 		SELECT id FROM `xxl_job_log`
