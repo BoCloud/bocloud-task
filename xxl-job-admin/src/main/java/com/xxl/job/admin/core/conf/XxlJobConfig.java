@@ -17,6 +17,9 @@ public class XxlJobConfig {
     @Value("${xxl.job.admin.addresses}")
     private String adminAddresses;
 
+    @Value("${xxl.job.executor.appname}")
+    private String appname;
+
     @Value("${xxl.job.executor.ip}")
     private String ip;
 
@@ -33,11 +36,11 @@ public class XxlJobConfig {
     private int logRetentionDays;
 
 
-    @Bean(initMethod = "start", destroyMethod = "destroy")
+    @Bean
     public XxlJobSpringExecutor xxlJobExecutor() {
         XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
         xxlJobSpringExecutor.setAdminAddresses(adminAddresses);
-        xxlJobSpringExecutor.setAppname("task-bocloud-task");
+        xxlJobSpringExecutor.setAppname(appname);
         xxlJobSpringExecutor.setIp(ip);
         xxlJobSpringExecutor.setPort(port);
         xxlJobSpringExecutor.setAccessToken(accessToken);
