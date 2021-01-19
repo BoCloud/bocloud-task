@@ -20,7 +20,7 @@ public class LogCleanJobHandler extends IJobHandler {
     private XxlJobLogDao xxlJobLogDao;
 
 
-    @XxlJob("cleanLogJobHandler")
+    @XxlJob(value = "cleanLogJobHandler")
     @Override
     public ReturnT<String> execute(String param) throws Exception {
         XxlJobLogger.log("clean log begin: " + System.currentTimeMillis());

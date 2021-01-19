@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = "com.xxl.job.admin.jobhandler")
 public class XxlJobConfig {
 
-    @Value("${server.port:9024}")
-    private Integer serverPort;
+    @Value("${xxl.job.admin.addresses}")
+    private String adminAddresses;
 
     @Value("${xxl.job.executor.ip}")
     private String ip;
@@ -36,7 +36,7 @@ public class XxlJobConfig {
     @Bean(initMethod = "start", destroyMethod = "destroy")
     public XxlJobSpringExecutor xxlJobExecutor() {
         XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
-        xxlJobSpringExecutor.setAdminAddresses("http://bocloud-task:" + serverPort + "/bocloud-task");
+        xxlJobSpringExecutor.setAdminAddresses(adminAddresses);
         xxlJobSpringExecutor.setAppname("task-bocloud-task");
         xxlJobSpringExecutor.setIp(ip);
         xxlJobSpringExecutor.setPort(port);
