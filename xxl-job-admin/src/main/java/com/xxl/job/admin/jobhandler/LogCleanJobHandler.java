@@ -6,6 +6,8 @@ import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import com.xxl.job.core.log.XxlJobLogger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -19,7 +21,7 @@ public class LogCleanJobHandler extends IJobHandler {
     @Resource
     private XxlJobLogDao xxlJobLogDao;
 
-
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @XxlJob(value = "cleanLogJobHandler")
     @Override
     public ReturnT<String> execute(String param) throws Exception {
@@ -30,6 +32,7 @@ public class LogCleanJobHandler extends IJobHandler {
         } catch (Exception e) {
             XxlJobLogger.log("clean log error: " + e);
             e.printStackTrace();
+
             return new ReturnT<>(ReturnT.FAIL_CODE, "clean log error: " + e.toString());
         }
     }
